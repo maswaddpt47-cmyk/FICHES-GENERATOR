@@ -1,0 +1,446 @@
+[
+  {
+    "id": "scene-femme-bureau-laptop-soir",
+    "category": "illustrations",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 1,
+    "slide_title": "Les démarches administratives en ligne",
+    "role": "titre",
+    "description": "Illustration scène : jeune femme souriante travaillant sur un laptop dans un bureau cosy, lumière du soir.",
+    "tags": [
+      "scene",
+      "personnage",
+      "ordinateur",
+      "cosy",
+      "hero",
+      "titre"
+    ],
+    "sha256_12": "bb73709a5b3a",
+    "file": "illustrations/scene-femme-bureau-laptop-soir.png",
+    "format": "png"
+  },
+  {
+    "id": "diagramme-parcours-etapes",
+    "category": "illustrations",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 5,
+    "slide_title": "Comment naviguer sur service-public.fr",
+    "role": "contenu",
+    "description": "Diagramme abstrait en forme de chemin en zigzag avec flèches, symbolisant un parcours en plusieurs étapes.",
+    "tags": [
+      "diagramme",
+      "parcours",
+      "etapes",
+      "navigation",
+      "abstrait"
+    ],
+    "sha256_12": "f2884bbae948",
+    "file": "illustrations/diagramme-parcours-etapes.png",
+    "format": "png"
+  },
+  {
+    "id": "diagramme-franceconnect-hub",
+    "category": "illustrations",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 7,
+    "slide_title": "FranceConnect : une clé pour tous les services",
+    "role": "contenu",
+    "description": "Diagramme en étoile : FranceConnect au centre, relié à 6 services (impots.gouv.fr, ameli.fr, CAF, retraite.gouv.fr, service-public.fr, ANTS). Spécifique au contenu FranceConnect, pas générique.",
+    "tags": [
+      "diagramme",
+      "hub",
+      "franceconnect",
+      "services-publics",
+      "specifique"
+    ],
+    "sha256_12": "8329b182d1b3",
+    "file": "illustrations/diagramme-franceconnect-hub.png",
+    "format": "png"
+  },
+  {
+    "id": "scene-mains-smartphone-contact",
+    "category": "illustrations",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 12,
+    "slide_title": "Besoin d'aide ? Nous sommes là !",
+    "role": "contenu",
+    "description": "Illustration scène : mains tenant un smartphone affichant une appli simple (icône livre, barre de progression, contacts, boutons d'action). Bonne illustration générique de clôture/contact/accompagnement.",
+    "tags": [
+      "scene",
+      "smartphone",
+      "contact",
+      "aide",
+      "cloture"
+    ],
+    "sha256_12": "a0b57eada7e0",
+    "file": "illustrations/scene-mains-smartphone-contact.png",
+    "format": "png"
+  },
+  {
+    "id": "carte-vide-bordure-verte",
+    "category": "gabarits",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 2,
+    "slide_title": "Pourquoi les démarches en ligne semblent compliquées",
+    "role": "contenu",
+    "description": "Gabarit de carte vide (fond blanc, bordure arrondie, accent vert à gauche) — probablement prévue pour recevoir une capture d'écran non insérée dans ce PPTX. Utilisée 3x sur la même slide. Pas un contenu illustratif en soi, réutilisable comme cadre de mise en page.",
+    "tags": [
+      "gabarit",
+      "carte-vide",
+      "mockup",
+      "placeholder",
+      "vert"
+    ],
+    "sha256_12": "357327524393",
+    "file": "gabarits/carte-vide-bordure-verte.svg",
+    "format": "svg",
+    "raster_fallback_skipped": "image4.png"
+  },
+  {
+    "id": "carte-vide-bandeau-gris",
+    "category": "gabarits",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 8,
+    "slide_title": "Les principaux sites par thème",
+    "role": "contenu",
+    "description": "Gabarit de carte vide avec bandeau gris en en-tête (style fenêtre/mockup de site) — probablement prévue pour recevoir une capture d'écran non insérée. Utilisée 3x sur la même slide.",
+    "tags": [
+      "gabarit",
+      "carte-vide",
+      "mockup",
+      "placeholder",
+      "gris"
+    ],
+    "sha256_12": "dee2ec535b1d",
+    "file": "gabarits/carte-vide-bandeau-gris.svg",
+    "format": "svg",
+    "raster_fallback_skipped": "image26.png"
+  },
+  {
+    "id": "icone-info",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": null,
+    "slide_title": null,
+    "role": null,
+    "description": "Pictogramme rond \"i\" d'information. Réutilisé sur plusieurs slides (2, 6).",
+    "tags": [
+      "icone",
+      "info",
+      "generique"
+    ],
+    "sha256_12": "fa8b089370ea",
+    "file": "icones/icone-info.png",
+    "format": "png"
+  },
+  {
+    "id": "icone-boussole",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 3,
+    "slide_title": "Au programme de cet atelier",
+    "role": "intro",
+    "description": "Pictogramme boussole. Un des 5 icônes de la slide sommaire/programme.",
+    "tags": [
+      "icone",
+      "boussole",
+      "navigation",
+      "generique"
+    ],
+    "sha256_12": "ee0bb5c03f14",
+    "file": "icones/icone-boussole.svg",
+    "format": "svg",
+    "raster_fallback_skipped": "image7.png"
+  },
+  {
+    "id": "icone-globe-web",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 3,
+    "slide_title": "Au programme de cet atelier",
+    "role": "intro",
+    "description": "Pictogramme globe/internet.",
+    "tags": [
+      "icone",
+      "globe",
+      "web",
+      "internet",
+      "generique"
+    ],
+    "sha256_12": "94f5177c382d",
+    "file": "icones/icone-globe-web.svg",
+    "format": "svg",
+    "raster_fallback_skipped": "image9.png"
+  },
+  {
+    "id": "icone-bouclier-securite",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 3,
+    "slide_title": "Au programme de cet atelier",
+    "role": "intro",
+    "description": "Pictogramme bouclier avec coche — sécurité/protection.",
+    "tags": [
+      "icone",
+      "securite",
+      "bouclier",
+      "generique"
+    ],
+    "sha256_12": "0bf9e6144338",
+    "file": "icones/icone-bouclier-securite.svg",
+    "format": "svg",
+    "raster_fallback_skipped": "image11.png"
+  },
+  {
+    "id": "icone-main-entraide",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 3,
+    "slide_title": "Au programme de cet atelier",
+    "role": "intro",
+    "description": "Pictogramme main tendue — entraide/accompagnement.",
+    "tags": [
+      "icone",
+      "entraide",
+      "main",
+      "aide",
+      "generique"
+    ],
+    "sha256_12": "96d9dc93f845",
+    "file": "icones/icone-main-entraide.svg",
+    "format": "svg",
+    "raster_fallback_skipped": "image13.png"
+  },
+  {
+    "id": "icone-euro-argent",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 3,
+    "slide_title": "Au programme de cet atelier",
+    "role": "intro",
+    "description": "Pictogramme symbole euro — argent/finance.",
+    "tags": [
+      "icone",
+      "argent",
+      "euro",
+      "finance",
+      "generique"
+    ],
+    "sha256_12": "e6b9903fb56c",
+    "file": "icones/icone-euro-argent.svg",
+    "format": "svg",
+    "raster_fallback_skipped": "image15.png"
+  },
+  {
+    "id": "icone-document-lignes",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 4,
+    "slide_title": "Service-public.fr : votre portail officiel",
+    "role": "contenu",
+    "description": "Pictogramme document avec lignes de texte.",
+    "tags": [
+      "icone",
+      "document",
+      "texte",
+      "generique"
+    ],
+    "sha256_12": "b4a00e00fbef",
+    "file": "icones/icone-document-lignes.png",
+    "format": "png"
+  },
+  {
+    "id": "icone-coeur-sante",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 6,
+    "slide_title": "La Boussole des jeunes : pour les 16–30 ans",
+    "role": "contenu",
+    "description": "Pictogramme cœur avec croix médicale — santé.",
+    "tags": [
+      "icone",
+      "sante",
+      "coeur",
+      "medical",
+      "generique"
+    ],
+    "sha256_12": "b37fbae4bd1d",
+    "file": "icones/icone-coeur-sante.svg",
+    "format": "svg",
+    "raster_fallback_skipped": "image19.png"
+  },
+  {
+    "id": "icone-document-carte",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 6,
+    "slide_title": "La Boussole des jeunes : pour les 16–30 ans",
+    "role": "contenu",
+    "description": "Pictogramme document/carte avec lignes de texte (variante).",
+    "tags": [
+      "icone",
+      "document",
+      "carte",
+      "generique"
+    ],
+    "sha256_12": "afbb3e25cfae",
+    "file": "icones/icone-document-carte.svg",
+    "format": "svg",
+    "raster_fallback_skipped": "image21.png"
+  },
+  {
+    "id": "icone-stethoscope-sante",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 6,
+    "slide_title": "La Boussole des jeunes : pour les 16–30 ans",
+    "role": "contenu",
+    "description": "Pictogramme stéthoscope + cœur + croix médicale — santé/médical.",
+    "tags": [
+      "icone",
+      "sante",
+      "stethoscope",
+      "medical",
+      "generique"
+    ],
+    "sha256_12": "79c83496033c",
+    "file": "icones/icone-stethoscope-sante.svg",
+    "format": "svg",
+    "raster_fallback_skipped": "image23.png"
+  },
+  {
+    "id": "icone-badge-etoile-qualite",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 8,
+    "slide_title": "Les principaux sites par thème",
+    "role": "contenu",
+    "description": "Pictogramme badge/médaille étoilée avec coche — qualité/certification.",
+    "tags": [
+      "icone",
+      "qualite",
+      "badge",
+      "certification",
+      "generique"
+    ],
+    "sha256_12": "6a3fc55941ed",
+    "file": "icones/icone-badge-etoile-qualite.svg",
+    "format": "svg",
+    "raster_fallback_skipped": "image28.png"
+  },
+  {
+    "id": "icone-alerte-attention",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 8,
+    "slide_title": "Les principaux sites par thème",
+    "role": "contenu",
+    "description": "Pictogramme triangle d'alerte/attention.",
+    "tags": [
+      "icone",
+      "alerte",
+      "attention",
+      "warning",
+      "generique"
+    ],
+    "sha256_12": "4086eeb944ae",
+    "file": "icones/icone-alerte-attention.svg",
+    "format": "svg",
+    "raster_fallback_skipped": "image30.png"
+  },
+  {
+    "id": "icone-fleche-suivant",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 8,
+    "slide_title": "Les principaux sites par thème",
+    "role": "contenu",
+    "description": "Pictogramme flèche double vers la droite — suivant/navigation.",
+    "tags": [
+      "icone",
+      "fleche",
+      "suivant",
+      "navigation",
+      "generique"
+    ],
+    "sha256_12": "3d1e3391a1da",
+    "file": "icones/icone-fleche-suivant.svg",
+    "format": "svg",
+    "raster_fallback_skipped": "image32.png"
+  },
+  {
+    "id": "icone-validation-check",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 8,
+    "slide_title": "Les principaux sites par thème",
+    "role": "contenu",
+    "description": "Pictogramme coche de validation.",
+    "tags": [
+      "icone",
+      "validation",
+      "check",
+      "generique"
+    ],
+    "sha256_12": "cb952d21765c",
+    "file": "icones/icone-validation-check.svg",
+    "format": "svg",
+    "raster_fallback_skipped": "image34.png"
+  },
+  {
+    "id": "icone-alerte-attention-petite",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 8,
+    "slide_title": "Les principaux sites par thème",
+    "role": "contenu",
+    "description": "Variante (petite taille, raster seul) du triangle d'alerte — probablement même glyphe que icone-alerte-attention mais fichier distinct.",
+    "tags": [
+      "icone",
+      "alerte",
+      "attention",
+      "warning"
+    ],
+    "sha256_12": "4df08e80504c",
+    "file": "icones/icone-alerte-attention-petite.png",
+    "format": "png"
+  },
+  {
+    "id": "icone-validation-check-verte",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 9,
+    "slide_title": "Vous n'êtes pas seul·e : les lieux d'aide",
+    "role": "contenu",
+    "description": "Pictogramme coche verte dans un cercle — réutilisé 4x (un par lieu d'aide listé).",
+    "tags": [
+      "icone",
+      "validation",
+      "check",
+      "vert",
+      "liste",
+      "generique"
+    ],
+    "sha256_12": "7f3c626a26fa",
+    "file": "icones/icone-validation-check-verte.svg",
+    "format": "svg",
+    "raster_fallback_skipped": "image37.png"
+  },
+  {
+    "id": "icone-validation-check-petite",
+    "category": "icones",
+    "source_pptx": "B4_Demarches_administratives_en_ligne.pptx",
+    "first_seen_slide": 10,
+    "slide_title": "Ce que vous pouvez faire dès aujourd'hui",
+    "role": "contenu",
+    "description": "Variante (petite taille, raster seul) de la coche de validation.",
+    "tags": [
+      "icone",
+      "validation",
+      "check"
+    ],
+    "sha256_12": "d2ff642bab0f",
+    "file": "icones/icone-validation-check-petite.png",
+    "format": "png"
+  }
+]
