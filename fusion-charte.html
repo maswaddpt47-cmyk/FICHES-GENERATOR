@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Fusion de PPTX vers la nouvelle charte — ARIANE 47</title>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
+<script src="assets/pptx-parser.js"></script>
+<style>
+  :root{
+    --bg:#13151a; --surface:#1b1e26; --surface-2:#22262f; --border:#2c303a;
+    --text:#eef0f4; --muted:#8a8f9c; --accent:#4f8ef7; --accent-2:#5eb3d2;
+    --ok:#22c55e; --warn:#f8a824; --err:#ef4444;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+  .wrap{max-width:760px;margin:0 auto;padding:32px 20px 80px}
+  header{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+  header h1{font-size:20px;margin:0}
+  .sub{color:var(--muted);font-size:13.5px;line-height:1.5;margin:6px 0 28px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:18px}
+  .card h2{font-size:15px;margin:0 0 12px;color:var(--accent-2)}
+  .field{margin-bottom:10px}
+  .field label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:6px}
+  .field input[type=password], .field input[type=text]{
+    width:100%;padding:10px 12px;border-radius:9px;border:1px solid var(--border);
+    background:var(--surface-2);color:var(--text);font-size:13.5px;
+  }
+  .checkbox-row{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);margin-top:8px}
+  .checkbox-row input{accent-color:var(--accent)}
+  .source{border:1.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;background:var(--surface-2)}
+  .source-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .source-head b{font-size:13px;color:var(--accent-2)}
+  .source-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;text-decoration:underline}
+  .drop{display:block;border:1.5px dashed var(--border);border-radius:10px;padding:18px;text-align:center;cursor:pointer;transition:.15s}
+  .drop:hover,.drop.drag{border-color:var(--accent);background:rgba(79,142,247,.08)}
+  .drop input{display:none}
+  .drop .ic{font-size:22px;margin-bottom:4px}
+  .drop .name{margin-top:6px;font-size:12.5px;color:var(--accent-2);word-break:break-all}
+  .add-source{width:100%;padding:11px;border:1.5px dashed var(--border);border-radius:10px;background:none;color:var(--muted);cursor:pointer;font-size:13px}
+  .add-source:hover{border-color:var(--accent);color:var(--accent-2)}
+  .actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+  button.gen{flex:1;min-width:200px;padding:13px 16px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;color:#fff;transition:.15s;background:linear-gradient(135deg,#4388bc,#5eb3d2)}
+  button.gen:disabled{opacity:.4;cursor:not-allowed}
+  button.gen:not(:disabled):hover{filter:brightness(1.1)}
+  .status{min-height:20px;font-size:13px;margin-top:14px;line-height:1.5}
+  .status.ok{color:var(--ok)}
+  .status.err{color:var(--err)}
+  .status.busy{color:var(--accent-2)}
+  .hint{font-size:12px;color:var(--muted);line-height:1.5;margin-top:14px}
+  .spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.25);border-top-color:var(--accent-2);border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div style="font-size:26px">🧬</div>
+    <h1>Fusion de PPTX vers la nouvelle charte</h1>
+  </header>
+  <div class="sub">
+    Fusionne plusieurs PPTX à l'ancienne charte en un seul PPTX à la charte actuelle
+    (palette et police de <code>fichegenerator.html</code>). Le regroupement thématique
+    des slides entre sources est fait par l'API Claude — tout le reste (lecture des
+    PPTX, génération du fichier final) se passe dans cet onglet, rien n'est envoyé
+    sur GitHub.
+  </div>
+
+  <div class="card">
+    <h2>1. Clé API Claude</h2>
+    <div class="field">
+      <label for="api-key">Clé API (console.anthropic.com)</label>
+      <input type="password" id="api-key" placeholder="sk-ant-...">
+    </div>
+    <div class="checkbox-row">
+      <input type="checkbox" id="remember-key" checked>
+      <label for="remember-key" style="margin:0">Mémoriser cette clé dans ce navigateur (localStorage)</label>
+    </div>
+    <div class="hint">
+      La clé n'est jamais écrite dans ce fichier ni envoyée sur GitHub — elle reste dans
+      ton navigateur et n'est utilisée que pour l'appel direct à l'API Claude au moment
+      de la fusion.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2. PPTX sources (ancienne charte)</h2>
+    <div id="sources"></div>
+    <button class="add-source" id="add-source">+ Ajouter une source</button>
+  </div>
+
+  <div class="card">
+    <h2>3. Fusionner</h2>
+    <div class="actions">
+      <button class="gen" id="btn-fusion">🧬 Analyser et fusionner (IA)</button>
+    </div>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div class="hint">
+    Le PPTX fusionné est généré et téléchargé directement dans cet onglet — rien n'est
+    déposé dans <code>assets/pptx/</code> ni committé. Nécessite une connexion internet
+    (librairies chargées depuis un CDN + appel à l'API Claude).
+  </div>
+</div>
+
+<script>
+const LS_KEY = 'fusioncharte_claude_api_key';
+const MODEL = 'claude-sonnet-5';
+
+const sourcesEl = document.getElementById('sources');
+const addSourceBtn = document.getElementById('add-source');
+const apiKeyInput = document.getElementById('api-key');
+const rememberKeyEl = document.getElementById('remember-key');
+const btnFusion = document.getElementById('btn-fusion');
+const statusEl = document.getElementById('status');
+
+let sources = []; // { id, file, name, slidesData }
+let nextId = 1;
+
+function setStatus(msg, cls){
+  statusEl.innerHTML = msg || '';
+  statusEl.className = 'status' + (cls ? ' '+cls : '');
+}
+
+/* ── clé API : chargée depuis localStorage si présente ── */
+const savedKey = localStorage.getItem(LS_KEY);
+if(savedKey) apiKeyInput.value = savedKey;
+
+function persistKeyIfNeeded(){
+  if(rememberKeyEl.checked && apiKeyInput.value.trim()){
+    localStorage.setItem(LS_KEY, apiKeyInput.value.trim());
+  } else {
+    localStorage.removeItem(LS_KEY);
+  }
+}
+apiKeyInput.addEventListener('change', persistKeyIfNeeded);
+rememberKeyEl.addEventListener('change', persistKeyIfNeeded);
+
+/* ── gestion dynamique des sources ── */
+function addSource(){
+  const id = nextId++;
+  sources.push({ id, file:null, name:null, slidesData:null });
+  renderSources();
+}
+function removeSource(id){
+  sources = sources.filter(s=>s.id !== id);
+  renderSources();
+}
+function renderSources(){
+  sourcesEl.innerHTML = '';
+  sources.forEach((s, i)=>{
+    const div = document.createElement('div');
+    div.className = 'source';
+    div.innerHTML = `
+      <div class="source-head">
+        <b>Source ${i+1}</b>
+        <button class="source-remove" data-id="${s.id}">retirer</button>
+      </div>
+      <label class="drop" data-id="${s.id}">
+        <div class="ic">📂</div>
+        <div>Glisser un .pptx ici, ou cliquer pour parcourir</div>
+        <div class="name">${s.name || ''}</div>
+        <input type="file" accept=".pptx" data-id="${s.id}">
+      </label>
+    `;
+    sourcesEl.appendChild(div);
+  });
+
+  sourcesEl.querySelectorAll('.source-remove').forEach(btn=>{
+    btn.addEventListener('click', ()=>removeSource(Number(btn.dataset.id)));
+  });
+  sourcesEl.querySelectorAll('.drop').forEach(dropEl=>{
+    const id = Number(dropEl.dataset.id);
+    ['dragover','dragenter'].forEach(ev=>dropEl.addEventListener(ev, e=>{ e.preventDefault(); dropEl.classList.add('drag'); }));
+    ['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{ e.preventDefault(); dropEl.classList.remove('drag'); }));
+    dropEl.addEventListener('drop', e=>{
+      const f = e.dataTransfer.files[0];
+      if(f) handleSourceFile(id, f);
+    });
+  });
+  sourcesEl.querySelectorAll('input[type=file]').forEach(inputEl=>{
+    const id = Number(inputEl.dataset.id);
+    inputEl.addEventListener('change', e=>{
+      const f = e.target.files[0];
+      if(f) handleSourceFile(id, f);
+    });
+  });
+}
+
+async function handleSourceFile(id, file){
+  if(!/\.pptx$/i.test(file.name)){
+    setStatus("Un des fichiers n'est pas un .pptx", 'err');
+    return;
+  }
+  const source = sources.find(s=>s.id === id);
+  source.file = file;
+  source.name = file.name;
+  renderSources();
+  try{
+    source.slidesData = await parsePptx(file);
+  }catch(err){
+    setStatus(`Erreur de lecture sur "${file.name}" : ${err.message}`, 'err');
+  }
+}
+
+addSourceBtn.addEventListener('click', addSource);
+addSource();
+addSource();
+
+/* ── résumé compact des slides à envoyer à l'IA ── */
+function buildSlideDigest(){
+  const digest = [];
+  sources.forEach(source=>{
+    source.slidesData.forEach((slide, i)=>{
+      const title = getSlideTitle(slide);
+      const role = classifyRole(title, i);
+      const bullets = slideBullets(slide, title, 5);
+      digest.push({ source: source.name, slide_index: i+1, title, role, bullets });
+    });
+  });
+  return digest;
+}
+function slideBullets(slide, title, maxB){
+  const bullets = [];
+  for(const shape of slide.shapes){
+    for(const para of shape.paragraphs){
+      const t = cleanText(para.trim());
+      if(t.length < 8) continue;
+      const tNorm = normLoose(t), titleNorm = normLoose(title);
+      if(tNorm === titleNorm) continue;
+      bullets.push(t);
+      if(bullets.length >= maxB) return bullets;
+    }
+  }
+  return bullets;
+}
+
+/* ── appel API Claude pour le plan de fusion ── */
+async function requestMergePlan(apiKey, digest){
+  const prompt = `Tu fusionnes plusieurs supports de formation (PPTX) en un seul support cohérent.
+Voici la liste des slides de chaque source, avec leur titre, leur rôle détecté (titre/intro/chapitre/demo/contenu/conclusion) et leurs points principaux :
+
+${JSON.stringify(digest, null, 1)}
+
+Fusionne ces slides en une séquence finale unique :
+- Regroupe les slides de sources différentes qui traitent du même thème, même si les titres diffèrent, en une seule slide de sortie avec un titre synthétique et les points dédupliqués (garde le meilleur point de chaque slide source, ne répète pas la même idée deux fois).
+- Conserve à part les slides qui n'ont pas d'équivalent dans une autre source.
+- Une seule slide de titre en tête, une seule slide de conclusion à la fin si au moins une source en avait.
+- Ordonne le résultat de façon pédagogique (titre, intro, contenu, conclusion).
+
+Réponds UNIQUEMENT avec un tableau JSON valide, sans texte autour ni balises markdown, au format exact :
+[{"title": "...", "role": "titre|intro|chapitre|demo|contenu|conclusion", "bullets": ["...", "..."], "sources": [{"source": "...", "slide_index": 1}]}]`;
+
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify({
+      model: MODEL,
+      max_tokens: 8192,
+      messages: [{ role: 'user', content: prompt }],
+    }),
+  });
+
+  if(!res.ok){
+    const body = await res.text();
+    throw new Error(`API Claude : ${res.status} ${res.statusText} — ${body.slice(0,200)}`);
+  }
+  const data = await res.json();
+  let text = data.content.map(b=>b.text || '').join('').trim();
+  text = text.replace(/^```(json)?/i, '').replace(/```$/, '').trim();
+  try{
+    return JSON.parse(text);
+  }catch(err){
+    throw new Error("Réponse de l'API non-JSON, impossible de parser le plan de fusion.");
+  }
+}
+
+/* ── génération du PPTX fusionné (identité visuelle fichegenerator.html) ── */
+function buildFusedDeck(pptx, mergedSlides){
+  pptx.layout = 'LAYOUT_16x9';
+  const W = 13.333, H = 7.5;
+
+  mergedSlides.forEach((s, i)=>{
+    const slide = pptx.addSlide();
+    if(s.role === 'titre' || i === 0){
+      rect(slide, 0, 0, W, H, COLORS.WHT);
+      rect(slide, 0, H/2 - 0.06, W, 0.12, COLORS.BLU);
+      textbox(slide, 1, H/2 - 1.1, W-2, 1.0, [
+        { text: s.title, size:28, bold:true, color:COLORS.BLU, align:'center' },
+      ]);
+      textbox(slide, 1, H/2 + 0.25, W-2, 0.5, [
+        { text: 'Support fusionné — nouvelle charte', size:12, color:COLORS.GRY, align:'center' },
+      ]);
+      return;
+    }
+    if(s.role === 'conclusion'){
+      rect(slide, 0, 0, W, H, COLORS.BG_TEA);
+      rect(slide, 0, 0, W, 0.14, COLORS.TEA);
+      textbox(slide, 1, 1.2, W-2, 1.0, [
+        { text: s.title, size:24, bold:true, color:COLORS.TEA, align:'center' },
+      ]);
+      const runs = (s.bullets||[]).map(b=>({ text:`→ ${b}`, size:14, color:COLORS.DRK, align:'left' }));
+      textbox(slide, 1.5, 2.6, W-3, H-3.2, runs);
+      return;
+    }
+    // slide de contenu générique
+    rect(slide, 0, 0, W, H, COLORS.WHT);
+    rect(slide, 0, 0, W, 1.0, COLORS.BLU);
+    textbox(slide, 0.6, 0.15, W-1.2, 0.7, [
+      { text: s.title, size:20, bold:true, color:COLORS.WHT, align:'left' },
+    ]);
+    const runs = (s.bullets||[]).map(b=>({ text:`•  ${b}`, size:15, color:COLORS.DRK }));
+    textbox(slide, 1.0, 1.4, W-2.0, H-2.0, runs);
+
+    if(s.sources && s.sources.length){
+      const srcLabel = s.sources.map(x=>`${x.source} (slide ${x.slide_index})`).join(' · ');
+      textbox(slide, 0.6, H-0.45, W-1.2, 0.35, [
+        { text: `Fusionné depuis : ${srcLabel}`, size:8, color:COLORS.GRY, align:'left' },
+      ]);
+    }
+  });
+}
+
+btnFusion.addEventListener('click', async ()=>{
+  const apiKey = apiKeyInput.value.trim();
+  if(!apiKey){
+    setStatus('Renseigne ta clé API Claude.', 'err');
+    return;
+  }
+  const ready = sources.filter(s=>s.slidesData);
+  if(ready.length < 1){
+    setStatus('Ajoute au moins un PPTX source.', 'err');
+    return;
+  }
+  persistKeyIfNeeded();
+
+  btnFusion.disabled = true;
+  try{
+    setStatus('<span class="spinner"></span>Analyse des PPTX sources…', 'busy');
+    const digest = buildSlideDigest();
+
+    setStatus('<span class="spinner"></span>Fusion thématique par l\'IA…', 'busy');
+    const mergePlan = await requestMergePlan(apiKey, digest);
+
+    setStatus('<span class="spinner"></span>Génération du PPTX fusionné…', 'busy');
+    const pptx = new PptxGenJS();
+    buildFusedDeck(pptx, mergePlan);
+    await pptx.writeFile({ fileName: 'fusion-nouvelle-charte.pptx' });
+
+    setStatus('✓ PPTX fusionné téléchargé.', 'ok');
+  }catch(err){
+    console.error(err);
+    setStatus('Erreur : ' + err.message, 'err');
+  }
+  btnFusion.disabled = false;
+});
+</script>
+</body>
+</html>
