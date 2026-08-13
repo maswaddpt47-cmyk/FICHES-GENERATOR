@@ -255,18 +255,14 @@ function analyzeSlides(slidesData){
   });
   slides = postProcessRoles(slides);
 
-  // Avant le sommaire, on ne neutralise QUE le bloc de présentation générique du
-  // gabarit ("Le Département...", "Une équipe de conseillers numériques...") — pas
-  // n'importe quelle slide placée avant le sommaire, qui peut être du vrai contenu
-  // (ex. une slide de mise en contexte du sujet).
-  const introIdx = slides.findIndex((s,i)=> i>0 && s.role==='intro');
-  const BOILERPLATE_KW = ['département','équipe de conseillers numériques'];
-  if(introIdx > 1){
-    for(let i=1;i<introIdx;i++){
-      const t = slides[i].titre.toLowerCase();
-      if(BOILERPLATE_KW.some(w=>t.includes(w))){ slides[i].role = 'hors_sommaire'; slides[i].min = 0; }
-    }
-  }
+  // Les 4 premières et les 2 dernières slides sont le bloc fixe du gabarit
+  // (présentation du Département + clôture), présent sur tous les PPTX concernés
+  // par ce flux — toujours hors contenu d'atelier, quel que soit leur titre.
+  const total = slides.length;
+  slides.forEach((s,i)=>{
+    const n = i+1;
+    if((n > 1 && n <= 4) || n > total - 2){ s.role = 'hors_contenu'; s.min = 0; }
+  });
 
   slides.forEach(s=>{ s.optionnel = isOptionalSlide(s); });
   return slides;
@@ -349,7 +345,7 @@ function extractFiche(slidesData, slidesMeta, indices){
 
   const deroule = []; let cumtime = 0;
   for(const [slide, meta] of pairs){
-    if(meta.role === 'titre' || meta.role === 'hors_sommaire'){ cumtime += meta.min; continue; }
+    if(meta.role === 'titre' || meta.role === 'hors_contenu'){ cumtime += meta.min; continue; }
     if(meta.optionnel){ cumtime += meta.min; continue; }
     const h2 = Math.floor(cumtime/60), m2 = cumtime%60;
     deroule.push({
@@ -362,7 +358,7 @@ function extractFiche(slidesData, slidesMeta, indices){
   }
 
   const optRaw = slidesMeta.map((m,i)=>[slidesData[i],m])
-    .filter(([,m])=> m.optionnel && m.role !== 'titre' && (!idxSet || !idxSet.has(m.n)));
+    .filter(([,m])=> m.optionnel && m.role !== 'titre' && m.role !== 'hors_contenu' && (!idxSet || !idxSet.has(m.n)));
   const optionnels = optRaw.map(([s,m])=>({
     min: m.min, titre: trunc(cleanText(m.titre),38), bullets: getBullets(s, m.titre, 3),
   }));
@@ -393,7 +389,7 @@ function extractMemo(slidesData, slidesMeta, indices){
   const bsa = [];
   slidesMeta.forEach((meta,i)=>{
     if(!meta.optionnel) return;
-    if(['titre','chapitre'].includes(meta.role)) return;
+    if(['titre','chapitre','hors_contenu'].includes(meta.role)) return;
     if(idxSet && idxSet.has(meta.n)) return;
     const slide = slidesData[i];
     bsa.push({ titre: cleanText(meta.titre), bullets: getMemoBullets(slide, meta.titre, 4) });
