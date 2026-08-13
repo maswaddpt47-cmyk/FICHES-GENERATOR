@@ -254,6 +254,20 @@ function analyzeSlides(slidesData){
     return { n: i+1, titre, role, min: DURATION[role] ?? 8, optionnel: false };
   });
   slides = postProcessRoles(slides);
+
+  // Avant le sommaire, on ne neutralise QUE le bloc de présentation générique du
+  // gabarit ("Le Département...", "Une équipe de conseillers numériques...") — pas
+  // n'importe quelle slide placée avant le sommaire, qui peut être du vrai contenu
+  // (ex. une slide de mise en contexte du sujet).
+  const introIdx = slides.findIndex((s,i)=> i>0 && s.role==='intro');
+  const BOILERPLATE_KW = ['département','équipe de conseillers numériques'];
+  if(introIdx > 1){
+    for(let i=1;i<introIdx;i++){
+      const t = slides[i].titre.toLowerCase();
+      if(BOILERPLATE_KW.some(w=>t.includes(w))){ slides[i].role = 'hors_sommaire'; slides[i].min = 0; }
+    }
+  }
+
   slides.forEach(s=>{ s.optionnel = isOptionalSlide(s); });
   return slides;
 }
@@ -335,7 +349,7 @@ function extractFiche(slidesData, slidesMeta, indices){
 
   const deroule = []; let cumtime = 0;
   for(const [slide, meta] of pairs){
-    if(meta.role === 'titre'){ cumtime += meta.min; continue; }
+    if(meta.role === 'titre' || meta.role === 'hors_sommaire'){ cumtime += meta.min; continue; }
     if(meta.optionnel){ cumtime += meta.min; continue; }
     const h2 = Math.floor(cumtime/60), m2 = cumtime%60;
     deroule.push({
