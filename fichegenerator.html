@@ -345,7 +345,7 @@ function extractFiche(slidesData, slidesMeta, indices){
 
   const deroule = []; let cumtime = 0;
   for(const [slide, meta] of pairs){
-    if(meta.role === 'titre' || meta.role === 'hors_contenu'){ cumtime += meta.min; continue; }
+    if(meta.role === 'titre' || meta.role === 'hors_contenu' || meta.role === 'intro'){ cumtime += meta.min; continue; }
     if(meta.optionnel){ cumtime += meta.min; continue; }
     const h2 = Math.floor(cumtime/60), m2 = cumtime%60;
     deroule.push({
