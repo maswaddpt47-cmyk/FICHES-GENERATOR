@@ -376,7 +376,8 @@ function extractMemo(slidesData, slidesMeta, indices){
     if(meta.optionnel) return;
     if(idxSet && !idxSet.has(meta.n)) return;
     const slide = slidesData[i];
-    steps.push({ titre: cleanText(meta.titre), bullets: getMemoBullets(slide, meta.titre, 4) });
+    const bullets = getMemoBullets(slide, meta.titre, 4);
+    steps.push({ titre: cleanText(meta.titre), bullets: bullets.length ? bullets : ['Contenu à compléter'] });
   });
 
   let titreRaw = '';
@@ -392,7 +393,8 @@ function extractMemo(slidesData, slidesMeta, indices){
     if(['titre','chapitre','hors_contenu'].includes(meta.role)) return;
     if(idxSet && idxSet.has(meta.n)) return;
     const slide = slidesData[i];
-    bsa.push({ titre: cleanText(meta.titre), bullets: getMemoBullets(slide, meta.titre, 4) });
+    const bullets = getMemoBullets(slide, meta.titre, 4);
+    bsa.push({ titre: cleanText(meta.titre), bullets: bullets.length ? bullets : ['Contenu à compléter'] });
   });
 
   return { titre, steps, bsa };
